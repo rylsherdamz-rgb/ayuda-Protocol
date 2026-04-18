@@ -1,0 +1,12 @@
+[workspace]
+members = [
+    "contract",
+    "backend",
+]
+resolver = "2"
+
+# Add this here!
+[profile.release]
+overflow-checks = true
+lto = "thin"
+opt-level = "z"

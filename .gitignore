@@ -1,0 +1,14 @@
+# Rust build output
+target/
+
+# Rust backup files
+*.rs.bk
+
+# Frontend folder
+frontend/*
+frontend/
+./frontend/
+./frontend/*
+# Environment files
+.env
+.env.*
