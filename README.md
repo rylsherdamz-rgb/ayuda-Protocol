@@ -9,7 +9,7 @@
 ### 1. Smart Contract Deployment
 The foundation of the Ayuda protocol is built on the Stellar Testnet. This image confirms the successful deployment of the Soroban Wasm file to the network.
 
-![Deployed](./docsdeployed.png)
+![Deployed](./docs/deployed.png)
 
 ### 2. Local Protocol Testing
 Before going live, the core logic including `register_citizen` and `verify_citizen` was rigorously tested in a local environment to ensure state integrity and duplicate prevention.
@@ -33,9 +33,7 @@ The final user interface for GIST administrators. This minimalist dashboard brid
 ## 📌 Project Overview
 **Ayuda** is a decentralized identity and resource distribution system designed for institutional environments like the **Gateways Institute of Science and Technology (GIST)**. It solves the problem of "ghost recipients" and distribution leakage by using physical NFC cards as a "Proof-of-Presence" key.
 
-### The Problem
-* **Distribution Leakage:** Manual aid distribution is prone to errors and lack of real-time auditing.
-* **Technical Barriers:** Students find blockchain wallets and gas fees too complex for simple resource access.
+### The Problem * **Distribution Leakage:** Manual aid distribution is prone to errors and lack of real-time auditing. **Technical Barriers:** Students find blockchain wallets and gas fees too complex for simple resource access.
 
 ### The Solution
 * **Hardware-Bound Identity:** NFC tags act as a secure identifier for students.
