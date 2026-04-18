@@ -10,7 +10,7 @@ A decentralized identity and transparent fund distribution protocol leveraging N
 
 The foundation of the Ayuda protocol is built on the Stellar Testnet. This image confirms the successful deployment of the Soroban Wasm file to the network, ensuring the distribution logic is immutable and public.
 
-![Smart Contract Deployment](docs/deploy.png)
+![Smart Contract Deployment](docs/deployed.png)
 
 ### 2. Local Protocol Testing
 
@@ -28,13 +28,13 @@ Contract ID:
 CACB6NY66CGT2YGKBYJGOLSLPHZNYMZ5WBEGSNGYNGFFE7P6QSZYWV6S
 ```
 
-![On-Chain Verification](docs/explorer-verification.png)
+![On-Chain Verification](docs/explorer.png)
 
 ### 4. Admin Management Dashboard
 
 The final user interface for administrators. This minimalist dashboard bridges the NFC sensor data with the blockchain, allowing seamless student registration and real-time tracking of aid claims.
 
-![Admin Dashboard](docs/admin-dashboard.png)
+![Admin Dashboard](docs/dashboard.png)
 
 ---
 
@@ -255,13 +255,13 @@ npm run dev
 ## 📷 Image Paths
 
 ```md
-![Smart Contract Deployment](docs/contract-deployment.png)
+![Smart Contract Deployment](docs/deployed.png)
 
-![Local Protocol Testing](docs/local-testing.png)
+![Local Protocol Testing](docs/test.png)
 
-![On-Chain Verification](docs/explorer-verification.png)
+![On-Chain Verification](docs/explorer.png)
 
-![Admin Dashboard](docs/admin-dashboard.png)
+![Admin Dashboard](docs/dashboard.png)
 ```
 
 ```txt
