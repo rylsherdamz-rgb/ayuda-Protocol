@@ -1,91 +1,56 @@
 # AYUDA Protocol 🛡️
 
-A decentralized identity and transparent fund distribution protocol leveraging NFC and Soroban Smart Contracts.
+Decentralized identity and transparent fund distribution system for institutions, built on Stellar.
 
 ---
 
-## 🏗 System Evolution & Demo
+## Problem
 
-### 1. Smart Contract Deployment
+In many schools and institutions in the Philippines, aid distribution is still handled manually using paper lists or spreadsheets. This leads to ghost recipients, duplication, and lack of real-time tracking of who actually received assistance.
 
-The foundation of the Ayuda protocol is built on the Stellar Testnet. This image confirms the successful deployment of the Soroban Wasm file to the network, ensuring the distribution logic is immutable and public.
+Administrators also have no reliable way to verify whether a student physically claimed their aid, and unclaimed funds often become untracked or unused.
 
-![Smart Contract Deployment](docs/deployed.png)
+---
 
-### 2. Local Protocol Testing
+## Solution
 
-Before going live, the core logic including `register_citizen`, `fund_aid`, and `claim_aid` was rigorously tested in a local environment to ensure state integrity and duplicate prevention.
+AYUDA Protocol uses NFC-based Proof-of-Presence combined with Soroban smart contracts on Stellar to ensure only verified students can claim aid. Each transaction is recorded on-chain, making distribution fully transparent.
 
-![Local Protocol Testing](docs/test.png)
+If aid is not claimed, the system keeps it visible in the contract state and returns unclaimed funds back to the institution’s aid pool for future redistribution.
 
-### 3. On-Chain Verification (Explorer)
+Settlement is instant, low-cost, and verifiable within seconds.
 
-Every transaction is publicly auditable. You can track exactly when aid is claimed and by whom through the Stellar Expert Explorer.
+---
 
-Contract ID:
+## Demo Flow (2 minutes)
+
+1. Admin registers student via NFC scan
+2. Aid is assigned to student wallet on-chain
+3. Student taps NFC card (Proof-of-Presence)
+4. Smart contract validates identity
+5. Aid is released instantly to student wallet
+
+---
+
+## Architecture
 
 ```txt
-CACB6NY66CGT2YGKBYJGOLSLPHZNYMZ5WBEGSNGYNGFFE7P6QSZYWV6S
+Frontend (Next.js)
+  |-- Web NFC API (identity scan)
+  |-- Stellar SDK (transaction building)
+  |-- Freighter Wallet (authentication)
+  |-- Convex (real-time sync)
+
+Stellar Testnet
+  |-- Ayuda Soroban Contract (aid logic)
+  |-- USDC / Token Contract (fund distribution)
 ```
 
-![On-Chain Verification](docs/explorer.png)
-
-### 4. Admin Management Dashboard
-
-The final user interface for administrators. This minimalist dashboard bridges the NFC sensor data with the blockchain, allowing seamless student registration and real-time tracking of aid claims.
-
-![Admin Dashboard](docs/dashboard.png)
+No traditional backend required. All critical state is stored on-chain with Convex used only for UI syncing.
 
 ---
 
-## 📌 Project Overview
-
-Ayuda is a decentralized identity and resource distribution system designed for institutional environments.
-
-It solves the accountability crisis in aid distribution by using physical NFC cards as a proof-of-presence key.
-
----
-
-## ❗ The Problem
-
-* Manual aid distribution is prone to errors, ghost recipients, and lack of real-time auditing.
-* There is no transparency regarding what happens to unclaimed aid.
-* Students find blockchain wallets and gas fees too complicated for simple aid access.
-
----
-
-## ✅ The Solution
-
-* NFC tags act as secure physical identifiers for students.
-* Every claim is recorded on the Stellar blockchain.
-* Proof-of-presence ensures the correct beneficiary is physically present.
-* Institutions handle all gas fees so students do not need crypto knowledge.
-
----
-
-## 🛠 Tech Stack
-
-| Layer          | Technology                            |
-| -------------- | ------------------------------------- |
-| Smart Contract | Rust, Soroban SDK, Stellar Network    |
-| Backend        | Rust, Axum, Stellar CLI, Docker       |
-| Frontend       | Next.js 14, Tailwind CSS, Web NFC API |
-| Infrastructure | Render                                |
-
----
-
-## 🚀 Key Features
-
-* Minimalist black and white UI
-* NFC-based identity verification
-* Mobile phone as NFC sensor
-* Transparent blockchain claim tracking
-* Zero gas fees for users
-* Real-time admin dashboard
-
----
-
-## 📂 Project Structure
+## Project Structure
 
 ```txt
 ayuda-protocol/
@@ -93,138 +58,94 @@ ayuda-protocol/
 │   ├── src/
 │   │   ├── lib.rs
 │   │   └── test.rs
-│   ├── Cargo.toml
-│   └── target/
-├── backend/
-│   ├── src/
-│   ├── Cargo.toml
-│   └── Dockerfile
+│   └── Cargo.toml
 ├── frontend/
 │   ├── src/
-│   │   ├── app/
 │   │   ├── components/
 │   │   ├── lib/
+│   │   ├── views/
 │   │   └── styles/
-│   ├── package.json
-│   └── next.config.js
+│   ├── public/
+│   │   └── images/
+│   │       ├── deployed.png
+│   │       ├── test.png
+│   │       ├── explorer.png
+│   │       └── dashboard.png
 └── README.md
 ```
 
 ---
 
-## 🔧 Smart Contract Logic
+## Stellar Features Used
 
-```rust
-#![no_std]
-
-use soroban_sdk::{
-    contract, contractimpl, contracttype, symbol_short, token, Address, Env, String,
-};
-
-#[contracttype]
-#[derive(Clone, Debug)]
-pub struct CitizenData {
-    pub name: String,
-    pub aid_balance: i128,
-}
-
-#[contracttype]
-pub enum DataKey {
-    Admin,
-    TokenAddr,
-    Citizen(Address),
-}
-
-#[contract]
-pub struct AyudaContract;
-
-#[contractimpl]
-impl AyudaContract {
-    pub fn init(env: Env, admin: Address, token_addr: Address) {
-        if env.storage().instance().has(&DataKey::Admin) {
-            panic!("Already init");
-        }
-
-        env.storage().instance().set(&DataKey::Admin, &admin);
-        env.storage().instance().set(&DataKey::TokenAddr, &token_addr);
-    }
-
-    pub fn register_citizen(env: Env, admin: Address, citizen_addr: Address, name: String) {
-        admin.require_auth();
-
-        let stored_admin: Address = env.storage().instance().get(&DataKey::Admin).unwrap();
-        assert!(admin == stored_admin, "Not admin");
-
-        let data = CitizenData {
-            name,
-            aid_balance: 0,
-        };
-
-        env.storage().persistent().set(&DataKey::Citizen(citizen_addr.clone()), &data);
-    }
-
-    pub fn fund_aid(env: Env, admin: Address, citizen_addr: Address, amount: i128) {
-        admin.require_auth();
-
-        let mut data: CitizenData = env
-            .storage()
-            .persistent()
-            .get(&DataKey::Citizen(citizen_addr.clone()))
-            .expect("Citizen not registered");
-
-        data.aid_balance += amount;
-
-        env.storage().persistent().set(&DataKey::Citizen(citizen_addr), &data);
-    }
-
-    pub fn claim_aid(env: Env, citizen_addr: Address) {
-        let mut data: CitizenData = env
-            .storage()
-            .persistent()
-            .get(&DataKey::Citizen(citizen_addr.clone()))
-            .expect("No record");
-
-        let amount = data.aid_balance;
-        assert!(amount > 0, "No aid available");
-
-        let token_addr: Address = env.storage().instance().get(&DataKey::TokenAddr).unwrap();
-        let client = token::Client::new(&env, &token_addr);
-
-        client.transfer(&env.current_contract_address(), &citizen_addr, &amount);
-
-        data.aid_balance = 0;
-
-        env.storage().persistent().set(&DataKey::Citizen(citizen_addr.clone()), &data);
-
-        env.events().publish((symbol_short!("paid"), citizen_addr), amount);
-    }
-
-    pub fn get_balance(env: Env, citizen_addr: Address) -> i128 {
-        let data: CitizenData = env
-            .storage()
-            .persistent()
-            .get(&DataKey::Citizen(citizen_addr))
-            .unwrap_or(CitizenData {
-                name: String::from_str(&env, "Unknown"),
-                aid_balance: 0,
-            });
-
-        data.aid_balance
-    }
-}
-```
+| Feature                 | Usage                       |
+| ----------------------- | --------------------------- |
+| Soroban Smart Contracts | Core aid distribution logic |
+| USDC / Tokens           | Aid funding and transfers   |
+| Trustlines              | Student wallet eligibility  |
+| Clawback                | Admin correction of errors  |
+| Stellar Network         | Fast settlement & low fees  |
 
 ---
 
-## 🔧 Installation & Setup
+## Smart Contract
 
-### Clone Repository
+Deployed on Stellar Testnet:
 
-```bash
-git clone https://github.com/rylsherdamz-rgb/stellar.git
+```txt
+CACB6NY66CGT2YGKBYJGOLSLPHZNYMZ5WBEGSNGYNGFFE7P6QSZYWV6S
 ```
 
-### Smart Contract Build
+Explorer:
+
+```txt
+https://stellar.expert/explorer/testnet/contract/CACB6NY66CGT2YGKBYJGOLSLPHZNYMZ5WBEGSNGYNGFFE7P6QSZYWV6S
+```
+
+### Contract Functions
+
+| Function         | Description                      |
+| ---------------- | -------------------------------- |
+| register_citizen | Registers student identity       |
+| fund_aid         | Assigns aid to student           |
+| claim_aid        | Releases funds to student wallet |
+| get_balance      | Checks remaining aid             |
+
+---
+
+## Escrow / Aid Lifecycle
+
+```txt
+Registered → Funded → Claimed → Closed
+        ↘ Unclaimed → Returned to Aid Pool
+```
+
+If aid is not claimed within a defined period, it is not lost — it is returned to the institution’s shared aid pool for redistribution.
+
+---
+
+## Key Features
+
+* NFC-based identity verification
+* Fully transparent on-chain aid tracking
+* Instant settlement via Soroban
+* Zero dependency on traditional banking delays
+* Reusable institutional aid pool for unclaimed funds
+
+---
+
+## Prerequisites
+
+* Rust (latest stable)
+* Soroban CLI v25+
+* Node.js 18+
+* Freighter Wallet (testnet)
+
+---
+
+## Setup
+
+### Smart Contract
 
 ```bash
 soroban contract build
@@ -233,13 +154,6 @@ soroban contract deploy \
   --wasm target/wasm32-unknown-unknown/release/ayuda.wasm \
   --source deployer \
   --network testnet
-```
-
-### Backend
-
-```bash
-cd backend
-cargo run
 ```
 
 ### Frontend
@@ -252,51 +166,36 @@ npm run dev
 
 ---
 
-## 📷 Image Paths
+## CLI Example
 
-```md
-![Smart Contract Deployment](docs/deployed.png)
-
-![Local Protocol Testing](docs/test.png)
-
-![On-Chain Verification](docs/explorer.png)
-
-![Admin Dashboard](docs/dashboard.png)
-```
-
-```txt
-docs/
-├── contract-deployment.png
-├── local-testing.png
-├── explorer-verification.png
-└── admin-dashboard.png
+```bash
+soroban contract invoke \
+  --id CACB6NY66CGT2YGKBYJGOLSLPHZNYMZ5WBEGSNGYNGFFE7P6QSZYWV6S \
+  --source admin \
+  --network testnet \
+  -- register_citizen \
+  --citizen <ADDRESS> \
+  --name "Juan Dela Cruz"
 ```
 
 ---
 
-## 🌍 Why Stellar
+## Target Users
 
-* Fast finality
-* Very low fees
-* Soroban smart contracts
-* Public audit trail
-* Ideal for transparent aid distribution
-* Scalable for schools, LGUs, and institutions
+* Public schools and universities
+* Government aid programs
+* NGOs distributing financial assistance
+* Students from low-income households in the Philippines
 
 ---
 
-## 🔮 Future Improvements
+## Why Stellar
 
-* QR code backup verification
-* SMS notifications for claim status
-* Role-based admin access
-* Analytics dashboard for institutions
-* Multi-campus support
-* Offline NFC sync mode
+Stellar enables fast, low-cost, and transparent transactions that are ideal for institutional aid distribution. Soroban smart contracts ensure automation, while the blockchain guarantees auditability and trust without intermediaries.
 
 ---
 
-## 📜 License
+## License
 
 MIT License
 
