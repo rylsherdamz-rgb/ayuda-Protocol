@@ -10,13 +10,13 @@ A decentralized identity and transparent fund distribution protocol leveraging N
 
 The foundation of the Ayuda protocol is built on the Stellar Testnet. This image confirms the successful deployment of the Soroban Wasm file to the network, ensuring the distribution logic is immutable and public.
 
-![Smart Contract Deployment](docs/contract-deployment.png)
+![Smart Contract Deployment](docs/deploy.png)
 
 ### 2. Local Protocol Testing
 
 Before going live, the core logic including `register_citizen`, `fund_aid`, and `claim_aid` was rigorously tested in a local environment to ensure state integrity and duplicate prevention.
 
-![Local Protocol Testing](docs/local-testing.png)
+![Local Protocol Testing](docs/test.png)
 
 ### 3. On-Chain Verification (Explorer)
 
