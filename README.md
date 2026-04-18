@@ -14,7 +14,7 @@ The foundation of the Ayuda protocol is built on the Stellar Testnet. This image
 ### 2. Local Protocol Testing
 Before going live, the core logic including `register_citizen` and `verify_citizen` was rigorously tested in a local environment to ensure state integrity and duplicate prevention.
 
-![Testing](./docs/testing.png)
+![Testing](./docs/test.png)
 
 ### 3. On-Chain Verification (Explorer)
 Every transaction is publicly auditable. You can track the protocol's activity via the Stellar Expert Explorer.
