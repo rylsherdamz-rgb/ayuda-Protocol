@@ -9,24 +9,24 @@
 ### 1. Smart Contract Deployment
 The foundation of the Ayuda protocol is built on the Stellar Testnet. This image confirms the successful deployment of the Soroban Wasm file to the network.
 
-![Deployed](deployed.png)
+![Deployed](./docsdeployed.png)
 
 ### 2. Local Protocol Testing
 Before going live, the core logic including `register_citizen` and `verify_citizen` was rigorously tested in a local environment to ensure state integrity and duplicate prevention.
 
-![Testing](testing.png)
+![Testing](./docs/testing.png)
 
 ### 3. On-Chain Verification (Explorer)
 Every transaction is publicly auditable. You can track the protocol's activity via the Stellar Expert Explorer.
 
 **Contract ID:** [`CACB6NY66CGT2YGKBYJGOLSLPHZNYMZ5WBEGSNGYNGFFE7P6QSZYWV6S`](https://stellar.expert/explorer/testnet/contract/CACB6NY66CGT2YGKBYJGOLSLPHZNYMZ5WBEGSNGYNGFFE7P6QSZYWV6S)
 
-![Stellar Explorer](explorer.png)
+![Stellar Explorer](./docs/explorer.png)
 
 ### 4. Admin Management Dashboard
 The final user interface for GIST administrators. This minimalist dashboard bridges the NFC sensor data with the blockchain, allowing for seamless student registration and aid claims.
 
-![Dashboard](dashboard.png)
+![Dashboard](./docs/dashboard.png)
 
 ---
 
