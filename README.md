@@ -1,8 +1,68 @@
 # AYUDA Protocol 🛡️
 
-Decentralized identity and transparent fund distribution system for institutions, built on Stellar.
+## 📌 Project Overview
+
+AYUDA Protocol is a decentralized identity and resource distribution system designed for institutional environments.
+
+It solves transparency and accountability issues in aid distribution using NFC-based Proof-of-Presence and blockchain verification.
 
 ---
+
+### The Problem
+
+Every day, especially in rural provinces and city centers in the Philippines, oil subsidy drivers and public utility drivers are forced to line up for hours—sometimes half a day—just to claim government fuel subsidies or aid distributions.
+
+These long queues create major inefficiencies:
+
+* Drivers lose valuable working time (income loss for the day)
+* Crowded physical claiming centers cause delays and confusion
+* Manual verification leads to duplication, errors, and favoritism
+* Some eligible drivers are turned away due to incomplete lists or system mismatches
+* Lack of transparency makes it unclear who has already received aid
+* Manual aid distribution is prone to errors, ghost recipients, and lack of auditing.
+* There is no transparency on unclaimed or unverified aid.
+* Students struggle with wallets, blockchain complexity, and gas fees.
+* Institutions cannot clearly track where funds go after allocation.
+
+As a result, the subsidy meant to support drivers’ livelihood often becomes a burden instead of relief.
+
+---
+
+### The Solution
+
+AYUDA Protocol removes the need for physical lining up by replacing manual distribution with a decentralized, NFC-based and blockchain-verified aid system built on Stellar.
+
+With AYUDA Protocol:
+
+* Each driver is pre-registered and verified as a legitimate beneficiary
+* Drivers simply tap an NFC-enabled card or phone to prove presence
+* Aid is instantly validated and released through a Soroban smart contract
+* NFC cards act as secure physical identity verification.
+* Every transaction is recorded on the Stellar blockchain.
+* Proof-of-Presence ensures only verified students can claim aid.
+* Institutions handle gas fees for a seamless experience.
+* Every aid record is fully traceable on-chain.
+* If aid remains unclaimed, funds are returned to the institution’s aid pool for future redistribution.
+* Every transaction is recorded on-chain for full transparency and auditability
+* No physical queues, no manual checking, and no favoritism
+
+Instead of spending hours waiting in line, drivers receive their subsidy in seconds—securely, transparently, and directly to their wallet.
+
+This chat is nearing its limit
+Each chat has limited space for messages. Start a new chat to keep responses accurate, or upgrade for increased memory.
+
+---
+
+## 🚀 Key Features
+
+* NFC-based identity verification
+* Fully transparent blockchain audit trail
+* Real-time admin dashboard
+* Instant settlement via Soroban
+* Zero gas fees for students
+* Institutional aid pool recovery system
+
+--- 
 
 ## 🏗 System Evolution & Demo
 
@@ -53,34 +113,6 @@ The admin dashboard connects NFC-based identity verification with blockchain rec
 
 ---
 
-## 📌 Project Overview
-
-AYUDA Protocol is a decentralized identity and resource distribution system designed for institutional environments.
-
-It solves transparency and accountability issues in aid distribution using NFC-based Proof-of-Presence and blockchain verification.
-
----
-
-## ❗ The Problem
-
-* Manual aid distribution is prone to errors, ghost recipients, and lack of auditing.
-* There is no transparency on unclaimed or unverified aid.
-* Students struggle with wallets, blockchain complexity, and gas fees.
-* Institutions cannot clearly track where funds go after allocation.
-
----
-
-## ✅ The Solution
-
-* NFC cards act as secure physical identity verification.
-* Every transaction is recorded on the Stellar blockchain.
-* Proof-of-Presence ensures only verified students can claim aid.
-* Institutions handle gas fees for a seamless experience.
-* Every aid record is fully traceable on-chain.
-* If aid remains unclaimed, funds are returned to the institution’s aid pool for future redistribution.
-
----
-
 ## 🛠 Tech Stack
 
 | Layer          | Technology                            |
@@ -91,15 +123,6 @@ It solves transparency and accountability issues in aid distribution using NFC-b
 | Infrastructure | Render                                |
 
 ---
-
-## 🚀 Key Features
-
-* NFC-based identity verification
-* Fully transparent blockchain audit trail
-* Real-time admin dashboard
-* Instant settlement via Soroban
-* Zero gas fees for students
-* Institutional aid pool recovery system
 
 ---
 
