@@ -80,6 +80,10 @@ Each chat has limited space for messages. Start a new chat to keep responses acc
 #PS: this is outdate and im having issue with git but i have the video in the email i sent the demo of it working
 the backend handles all signing for adding account and claiming so there are no pop ups
 
+# this is the demo video;
+https://drive.google.com/file/d/1AeCSuZEn0X4_hqgEgRyWpHxCLQq4nvqo/view?usp=drivesdk
+
+#live site
 https://stellar-frontend-nu.vercel.app/
 
 ## 🏗 System Evolution & Demo
