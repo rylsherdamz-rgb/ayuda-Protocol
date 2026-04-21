@@ -76,6 +76,12 @@ Each chat has limited space for messages. Start a new chat to keep responses acc
 
 --- 
 
+# Live site
+#PS: this is outdate and im having issue with git but i have the video in the email i sent the demo of it working
+the backend handles all signing for adding account and claiming so there are no pop ups
+
+https://stellar-frontend-nu.vercel.app/
+
 ## 🏗 System Evolution & Demo
 
 ### 1. Smart Contract Deployment
