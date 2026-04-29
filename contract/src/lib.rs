@@ -32,6 +32,8 @@ pub enum DataKey {
     NfcMapping(String),
 }
 
+const ADMIN_PUBKEY: &str = "GAJPZCOVW34KTYF764X74ZRYOJIF3H2XKCRWH4CARVRZD5M4WJ2XVWLW";
+
 #[contract]
 pub struct AyudaContract;
 
@@ -41,6 +43,14 @@ impl AyudaContract {
         if env.storage().instance().has(&DataKey::Admin) {
             return Err(AyudaError::AlreadyInitialized);
         }
+
+        let hardcoded_admin = Address::from_string(&String::from_str(&env, ADMIN_PUBKEY));
+        if admin != hardcoded_admin {
+            return Err(AyudaError::NotAdmin);
+        }
+
+        admin.require_auth();
+
         env.storage().instance().set(&DataKey::Admin, &admin);
         env.storage()
             .instance()
@@ -120,7 +130,6 @@ impl AyudaContract {
             .ok_or(AyudaError::CitizenNotRegistered)?;
 
         data.aid_balance += amount;
-
         env.storage()
             .persistent()
             .set(&DataKey::Citizen(citizen_addr), &data);
@@ -160,8 +169,7 @@ impl AyudaContract {
 
         let client = token::Client::new(&env, &token_addr);
 
-        let contract_balance = client.balance(&env.current_contract_address());
-        if contract_balance < amount {
+        if client.balance(&env.current_contract_address()) < amount {
             return Err(AyudaError::InsufficientContractBalance);
         }
 
@@ -184,3 +192,5 @@ impl AyudaContract {
     }
 }
 
+#[cfg(test)]
+mod test;
